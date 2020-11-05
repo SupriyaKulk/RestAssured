@@ -7,6 +7,8 @@ import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.*;
 
+import java.util.ArrayList;
+
 public class GetAllPRoject_BDD {
 	
 	/**
@@ -14,13 +16,22 @@ public class GetAllPRoject_BDD {
 	 */
 	@Test
 	public void getAllProject() {
-	     when()
-	       .get("http://localhost:8084/projects")
-	     .then()
-	          .assertThat().statusCode(200)
-	          .and()
-	          .assertThat().contentType(ContentType.JSON);
-	      
+	    Response resp= when()
+	       .get("http://localhost:8084/projects");
+	    
+	    
+	    
+	    ArrayList<String> al= resp.jsonPath().get("projectName");
+	    for(String s:al)
+	    {
+	    	if(s.equalsIgnoreCase("API"))
+	    	{
+	    		System.out.println("s");
+	    		break;
+	    	}
+	    }
+	    
+	   resp.then().log().all();
 	      
 	} 
 
